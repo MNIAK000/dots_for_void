@@ -1,0 +1,101 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 40,
+    "spacing": 10,
+
+
+    "modules-left": ["sway/workspaces", "custom/media"],
+    "modules-center": ["clock"],
+    "modules-right": ["sway/language", "pulseaudio", "battery", "custom/notification"],
+
+
+
+    "custom/notification": {
+        "tooltip": true,
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "NC",
+            "none": "NC",
+            "dnd-notification": "DND",
+            "dnd-none": "DND"
+
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+  },
+
+    
+
+    "clock": {
+        "format": "<span text_transform='uppercase'>{0:%b-%d | %I:%M}</span>",
+        "interval": 60,
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+                    "mode"          : "year",
+                    "mode-mon-col"  : 3,
+                    "weeks-pos"     : "right",
+                    "on-scroll"     : 1,
+                    "format": {
+                               "months": "<span color='#3e2c83'><b>{}</b></span>",
+                               "days": "<span color='#cdd6f4'>{}</span>",
+                               "weeks": "<span color='#07808e'><b>W{}</b></span>",
+                               "weekdays": "<span color='#763762'><b>{}</b></span>",
+                               "today": "<span color='#f38ba8'><b>{}</b></span>"
+                              }
+                    },
+        "actions":  {
+                    "on-click-right": "mode",
+                    "on-scroll-up": "tz_up",
+                    "on-scroll-down": "tz_down",
+                    "on-scroll-up": "shift_up",
+                    "on-scroll-down": "shift_down"
+                    }
+    },
+
+    "sway/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "sort-by-number": true
+    },
+
+    "custom/media": {
+        "exec": "playerctl metadata --format '{{ title }}' 2>/dev/null || echo ''",
+        "interval": 2,
+        "max-length": 30,
+        "on-click": "playerctl play-pause"
+    },
+
+    "battery": {
+        "format": "HP:{capacity}%",
+        "tooltip": false
+    },
+
+
+    "pulseaudio": {
+        "format": "VOL:{volume}%",
+        "scroll-step": 1,
+        "on-click": "pavucontrol",
+        "ignored-sinks": ["Easy Effects Sink"]
+    },
+
+
+    "custom/network": {
+        "exec": "~/.config/waybar/scripts/network.sh",
+        "interval": 5,
+        "on-click": "qs ipc call wifi toggle",
+        "on-click-right": "qs ipc call bluetooth toggle",
+        "tooltip": false
+    },
+
+    "sway/language": {
+        "on-click": "swaymsg input type:keyboard xkb_switch_layout next",
+        "format": "<span text_transform='uppercase'>{short}</span>",
+        "tooltip": false
+    }
+
+}

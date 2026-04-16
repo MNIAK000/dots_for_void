@@ -1,7 +1,9 @@
 #!/bin/bash
 
+killall swaylock;
+
 swaylock -f -L \
-    --image ~/wallpapers/Cat-Staring.jpg \
+    --image /home/MNIAK/wallpapers/Cat-Staring.jpg \
     --show-keyboard-layout \
     --indicator-caps-lock \
     --font "Jetbrains mono Medium" \

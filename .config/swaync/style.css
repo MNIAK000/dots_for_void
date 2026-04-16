@@ -1,4 +1,4 @@
-
+      /* Gruvbox Dark Hard Palette */
       @define-color dark-bg #000000;
       @define-color darker-bg #000000;
       @define-color darkest-bg #000000;
@@ -123,7 +123,7 @@
 
 .summary {
   font-size: 16px;
-  color: #07808e; 
+  color: #07808e; /* Updated from @green */
 }
 
 .time {

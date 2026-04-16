@@ -1,0 +1,199 @@
+
+# ===================== BASIC START-UP STUFF ======================
+
+# Set the default font used by sway
+font pango:Jetbrains mono 10
+
+# Start the auth agent
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 
+
+# Start Notification Daemon
+exec swaync
+
+# Start Clipboard logger
+exec clipse -listen   
+
+# Start Bluetooth
+exec blueman-applet
+
+# Start wacom tablet
+input 1386:967:Wacom_Intuos_BT_M_Pad map_to_output eDP-1
+
+# Start swayidle
+exec /home/MNIAK/.config/swayidle/swayidle.sh
+
+# Start basic env config
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+# =================================================================
+
+
+
+# ===================== MONITORS ==================================#
+output eDP-1 pos 0 0 res 2560x1600@240.000Hz
+# =================================================================
+
+
+# ===================== WALLPAPER =================================
+output * bg "/home/MNIAK/wallpapers/Miku-3.jpg" fill
+# =================================================================
+
+
+
+# ===================== APP VARIABLES =============================
+set $mod Mod4
+
+set $left h
+set $down j
+set $up k
+set $right l
+
+set $term foot
+set $application_launcher pgrep wofi >/dev/null 2>&1 && killall wofi || wofi --show drun
+set $file_explorer GTK_THEME=diinki-retro-dark nautilus
+# =================================================================
+
+
+
+# ===================== BORDERS & GAPS ============================
+
+# Gaps between windows
+gaps inner 8px
+gaps outer 4px
+
+# Border width
+default_border pixel 1px
+default_floating_border pixel 1px
+
+
+# The border colors:
+
+#                         border    bg        text      ind       child border
+client.focused          #FFFFFF #141216 #FFFFFF #FFFFFF #FFFFFF
+client.focused_inactive #3e2c83 #141216 #FFFFFF #3e2c83 #3e2c83
+client.unfocused        #3e2c83 #141216 #FFFFFF #3e2c83 #3e2c83
+client.urgent           #07808e #141216 #FFFFFF #07808e #07808e
+client.placeholder      #3e2c83 #141216 #FFFFFF #3e2c83 #3e2c83
+
+
+# =================================================================
+
+
+
+# ==================== APP SPECIFIC PROPERTIES ====================
+
+# Making Clipse look nice
+for_window [app_id="clipse"] floating enable, move position center, resize set 80ppt 80ppt
+
+
+# ===================== INPUT & KEYBOARD ==========================
+input * {
+  xkb_layout "us,ge"
+  xkb_options "grp:alt_shift_toggle"
+}
+# =================================================================
+
+
+
+# ===================== THE INFO/TASKBAR ==========================
+bar {
+  swaybar_command waybar
+}
+# =================================================================
+
+
+
+# ===================== SCREENSHOTS ===============================
+bindsym Print exec pgrep grim >/dev/null 2>&1 && killall grim || grim -g "$(slurp)" - | swappy -f - 
+# =================================================================
+
+
+
+# ===================== BASIC KEYBINDS ============================
+bindsym $mod+q exec $term
+bindsym $mod+e exec nemo
+bindsym $mod+r exec $application_launcher
+bindsym $mod+c kill
+bindsym $mod+Shift+e reload
+bindsym $mod+Shift+space floating toggle
+
+floating_modifier $mod normal
+
+# Toggle notrification center
+bindsym $mod+Shift+n exec swaync-client -t -sw
+
+# Toggle Clipboard TUI
+bindsym $mod+V exec pgrep clipse >/dev/null 2>&1 && killall clipse || $term --class clipse -e clipse
+
+# Exit sway command
+bindsym $mod+Shift+c exec swaynag -t warning -m "Are you sure you want to exit sway?" -B "Yes, EXIT!" "swaymsg exit" --font="CaskaydiaCove Nerd Font bold 12"
+
+# lock the screen
+bindsym $mod+x exec bash /home/MNIAK/.config/swaylock/swaylock.sh
+# ================================================================
+
+
+
+# ===================== OTHER STANDARD BINDINGS ==================
+
+bindsym $mod+f fullscreen
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Switch the monitor to a specific workspace.
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+# Move hovered windows to a specific workspace.
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+bindsym $mod+a focus parent
+
+# Modify audio with the F keys.
+bindsym XF86AudioRaiseVolume exec wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+
+# Control the media input/output by the F keys.
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPrev exec playerctl previous
+
+
+# Modify Brightness by the F keys.
+bindsym XF86MonBrightnessUp exec brightnessctl -e4 -n2 set 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl -e4 -n2 set 5%-
+
+# ==============================================================

@@ -1,0 +1,16 @@
+show=drun
+term=foot
+
+
+show_all=true
+
+location=center
+insensitive=false
+
+
+line_wrap=word
+lines=10
+width=500
+no_actions=true
+prompt=
+hide_scroll=true

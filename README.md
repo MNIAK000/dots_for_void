@@ -9,7 +9,7 @@ swaylock \
 swaync \
 vesktop \
 waybar \
-foor \
+foot \
 gtk 3 & 4 \
 sway \
 wofi

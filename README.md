@@ -8,9 +8,10 @@ swayidle config \
 swaylock config \
 swaync config \
 vesktop config \
-waybar config 
+waybar config \
+foor config \
+gtk 3 & 4 config \
+sway config \
+wofi config
 
-and it will soon have: \
-sway config  \
-kitty config \
-wofi config (might change it to something else) 
+dependencies are:
